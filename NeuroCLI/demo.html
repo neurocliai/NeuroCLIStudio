@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCLI Studio - Promo Demo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+        
+        :root {
+            --bg-dark: #050505;
+            --accent: #6366f1;
+            --accent-glow: #a855f7;
+            --text-light: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Scenes container */
+        .scene {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .scene.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            margin: 0;
+            text-align: center;
+            letter-spacing: -1px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #a1a1aa;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-glow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Animations */
+        .zoom-in {
+            animation: zoomIn 5s forwards;
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.9); }
+            100% { transform: scale(1.1); }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid var(--accent);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .1em;
+            animation: typing 2.5s steps(40, end), blink-caret .75s step-end infinite;
+            max-width: fit-content;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent); }
+        }
+
+        /* Grid Scene */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 80%;
+            max-width: 1000px;
+        }
+
+        .grid-item {
+            border-radius: 16px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1/1;
+        }
+
+        /* Generate Button mockup */
+        .mock-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            padding: 1rem 3rem;
+            border-radius: 2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            opacity: 0;
+        }
+        
+        .fade-up {
+            animation: fadeUp 1s forwards;
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Scene 1 -->
+    <div id="scene1" class="scene active">
+        <h2 style="animation: zoomIn 3s forwards;">The Future of AI Art is Here.</h2>
+    </div>
+
+    <!-- Scene 2 -->
+    <div id="scene2" class="scene">
+        <h1 class="zoom-in">Introducing <br><span class="gradient-text">NeuroCLI Studio</span></h1>
+    </div>
+
+    <!-- Scene 3 -->
+    <div id="scene3" class="scene">
+        <div style="background: rgba(255,255,255,0.05); padding: 2rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+            <h2 id="typing-prompt" style="color: white;"></h2>
+        </div>
+        <div id="generate-btn" class="mock-btn">Generate</div>
+    </div>
+
+    <!-- Scene 4 -->
+    <div id="scene4" class="scene">
+        <h1 class="gradient-text" style="font-size: 6rem; margin-bottom: 1rem;">Under 10 Seconds.</h1>
+        <h2>Unmatched Speed & Quality.</h2>
+    </div>
+
+    <!-- Scene 5 -->
+    <div id="scene5" class="scene">
+        <div class="image-grid">
+            <div class="grid-item" id="img1"><img src="https://images.unsplash.com/photo-1604871000636-074fa5117945?w=800" alt="AI Art 1"></div>
+            <div class="grid-item" id="img2"><img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=800" alt="AI Art 2"></div>
+            <div class="grid-item" id="img3"><img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?q=80&w=800" alt="AI Art 3"></div>
+        </div>
+    </div>
+
+    <!-- Scene 6 -->
+    <div id="scene6" class="scene">
+        <h1 class="gradient-text" style="font-size: 6rem; margin-bottom: 1rem;">Infinite Styles.</h1>
+        <h2>Complete Creative Freedom.</h2>
+    </div>
+
+    <!-- Scene 7 -->
+    <div id="scene7" class="scene">
+        <h1 class="gradient-text" style="font-size: 6rem; margin-bottom: 1rem;">Zero Wait Times.</h1>
+        <h2>Instant Inspiration.</h2>
+    </div>
+
+    <!-- Scene 8 -->
+    <div id="scene8" class="scene">
+        <h1 style="margin-bottom: 2rem;">Experience It Now.</h1>
+        <h1 class="gradient-text" style="font-size: 5rem;">neuroclistudio.com</h1>
+    </div>
+
+    <script>
+        const scenes = [
+            document.getElementById('scene1'),
+            document.getElementById('scene2'),
+            document.getElementById('scene3'),
+            document.getElementById('scene4'),
+            document.getElementById('scene5'),
+            document.getElementById('scene6'),
+            document.getElementById('scene7'),
+            document.getElementById('scene8')
+        ];
+
+        function switchScene(fromIdx, toIdx) {
+            scenes[fromIdx].classList.remove('active');
+            scenes[toIdx].classList.add('active');
+            
+            // Add animations to text inside the scene when it becomes active
+            const h1s = scenes[toIdx].querySelectorAll('h1');
+            const h2s = scenes[toIdx].querySelectorAll('h2');
+            
+            h1s.forEach(el => {
+                if(!el.classList.contains('zoom-in')) {
+                    el.classList.remove('fade-up');
+                    void el.offsetWidth; // trigger reflow
+                    el.classList.add('fade-up');
+                }
+            });
+        }
+
+        // Timeline
+        setTimeout(() => { switchScene(0, 1); }, 3000); // Intro -> NeuroCLI
+        
+        setTimeout(() => { 
+            switchScene(1, 2); 
+            // Start typing effect
+            const textElement = document.getElementById('typing-prompt');
+            textElement.classList.add('typewriter');
+            textElement.innerText = "Cinematic portrait of a cyberpunk city...";
+            
+            // Show button shortly after
+            setTimeout(() => {
+                document.getElementById('generate-btn').style.opacity = '1';
+                document.getElementById('generate-btn').style.transform = 'scale(1)';
+                document.getElementById('generate-btn').style.transition = 'all 0.5s';
+            }, 2500);
+
+            // Simulate click
+            setTimeout(() => {
+                document.getElementById('generate-btn').style.transform = 'scale(0.95)';
+                document.getElementById('generate-btn').style.background = '#a855f7';
+            }, 3500);
+        }, 7000); // NeuroCLI -> Prompt
+
+        setTimeout(() => { switchScene(2, 3); }, 11500); // Prompt -> Speed
+
+        setTimeout(() => { 
+            switchScene(3, 4); 
+            
+            // Pop in images
+            setTimeout(() => { document.getElementById('img1').style.opacity = '1'; document.getElementById('img1').style.transform = 'translateY(0)'; document.getElementById('img1').style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; }, 500);
+            setTimeout(() => { document.getElementById('img2').style.opacity = '1'; document.getElementById('img2').style.transform = 'translateY(0)'; document.getElementById('img2').style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; }, 1000);
+            setTimeout(() => { document.getElementById('img3').style.opacity = '1'; document.getElementById('img3').style.transform = 'translateY(0)'; document.getElementById('img3').style.transition = 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'; }, 1500);
+
+        }, 14500); // Speed -> Grid
+
+        setTimeout(() => { switchScene(4, 5); }, 20000); // Grid -> Infinite Styles
+        
+        setTimeout(() => { switchScene(5, 6); }, 24000); // Infinite Styles -> Zero Wait
+        
+        setTimeout(() => { switchScene(6, 7); }, 28000); // Zero Wait -> Outro
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCLI | Ultimate AI Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        background: '#030303',
+                        surface: '#0d0d12',
+                        accent: '#4B32C3',
+                        accentGlow: '#8363FF'
+                    },
+                    animation: {
+                        'blob': 'blob 10s infinite',
+                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: theme('colors.background');
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #ffffff, #a5a5a5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-text-accent {
+            background: linear-gradient(135deg, #8363FF 0%, #FF6B6B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-glow:focus-within {
+            box-shadow: 0 0 25px rgba(131, 99, 255, 0.3);
+            border-color: rgba(131, 99, 255, 0.5);
+        }
+
+        /* Ambient Background Glow */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .loader {
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #8363FF;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hide { display: none !important; }
+    </style>
+</head>
+<body class="min-h-screen relative font-sans antialiased flex flex-col items-center justify-center p-6">
+
+    <!-- Ambient Background -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="ambient-glow bg-[#4B32C3] w-[40vw] h-[40vw] top-[-10%] left-[-10%] animate-blob"></div>
+        <div class="ambient-glow bg-[#FF6B6B] w-[30vw] h-[30vw] bottom-[-10%] right-[-5%] animate-blob" style="animation-delay: 2s;"></div>
+        <div class="ambient-glow bg-[#00ffcc] w-[20vw] h-[20vw] top-[40%] left-[40%] animate-blob opacity-20" style="animation-delay: 4s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-full max-w-5xl mx-auto flex flex-col items-center animate-fade-in-up">
+        
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <div class="inline-block px-4 py-1.5 rounded-full glass-panel text-xs font-semibold tracking-wider text-gray-300 mb-6 uppercase">
+                <span class="w-2 h-2 rounded-full bg-green-400 inline-block mr-2 animate-pulse"></span> NeuroCLI Studio v2.0
+            </div>
+            <h1 class="text-6xl md:text-7xl font-bold tracking-tight mb-4 gradient-text">
+                Imagine it. <br/> <span class="gradient-text-accent">We'll generate it.</span>
+            </h1>
+            <p class="text-gray-400 text-lg max-w-xl mx-auto font-light">
+                Experience the next generation of visual intelligence. Type any prompt and watch NeuroCLI bring it to life instantly without limits.
+            </p>
+        </div>
+
+        <!-- Generation Interface -->
+        <div class="w-full max-w-3xl glass-panel rounded-3xl p-2 relative mb-12 transition-all duration-300 input-glow">
+            <form id="gen-form" class="flex items-center gap-2 relative">
+                <input type="text" id="prompt-input" autocomplete="off"
+                    class="w-full bg-transparent text-white placeholder-gray-500 px-6 py-4 outline-none text-lg"
+                    placeholder="Describe your masterpiece (e.g., A futuristic cyberpunk city at sunset...)">
+                <button type="submit" id="gen-btn"
+                    class="bg-white text-black font-semibold px-8 py-3 rounded-2xl hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 h-[52px]">
+                    <span id="btn-text">Generate</span>
+                    <div id="btn-loader" class="loader hide"></div>
+                </button>
+            </form>
+        </div>
+
+        <!-- Result Canvas -->
+        <div id="result-container" class="w-full glass-panel rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center relative hide transition-all duration-700 opacity-0 transform translate-y-8">
+            
+            <div id="loading-state" class="absolute flex flex-col items-center justify-center gap-4 z-10 hide">
+                <div class="w-12 h-12 border-4 border-gray-700 border-t-accentGlow rounded-full animate-spin"></div>
+                <p class="text-gray-400 font-medium tracking-wide animate-pulse">Synthesizing Pixels...</p>
+            </div>
+
+            <img id="generated-image" src="" alt="Generated Artwork" class="w-full h-auto object-cover opacity-0 transition-opacity duration-1000 hidden">
+            
+            <!-- Image Overlay Controls -->
+            <div id="image-overlay" class="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black/80 to-transparent flex justify-between items-end opacity-0 transition-opacity duration-300 hover:opacity-100 hidden">
+                <p id="image-prompt-text" class="text-white/90 text-sm font-light max-w-[70%] line-clamp-2"></p>
+                <a id="download-btn" href="#" download="NeuroCLI_Art.png" class="glass-panel px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/10 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download
+                </a>
+            </div>
+        </div>
+
+        <!-- Suggestion Pills -->
+        <div class="mt-12 flex flex-wrap justify-center gap-3 max-w-4xl">
+            <p class="w-full text-center text-sm text-gray-500 mb-2 font-medium">Try these styles:</p>
+            <button class="pill glass-panel px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:border-accentGlow transition-colors" data-prompt="A majestic glowing stag in a mystical forest, ethereal lighting, concept art">✨ Ethereal Fantasy</button>
+            <button class="pill glass-panel px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:border-accentGlow transition-colors" data-prompt="Ultra realistic portrait of a robotic geisha, neon accents, 8k, cinematic lighting">🤖 Cyberpunk Realism</button>
+            <button class="pill glass-panel px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:border-accentGlow transition-colors" data-prompt="A cute 3D isometric room with a gaming setup, pastel colors, soft lighting, blender render">🎮 Isometric 3D</button>
+            <button class="pill glass-panel px-4 py-2 rounded-full text-sm text-gray-300 hover:text-white hover:border-accentGlow transition-colors" data-prompt="Anime style illustration of a busy Tokyo street in the rain, studio ghibli style, detailed">☔ Anime Tokyo</button>
+        </div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('gen-form');
+        const input = document.getElementById('prompt-input');
+        const btnText = document.getElementById('btn-text');
+        const btnLoader = document.getElementById('btn-loader');
+        const generateBtn = document.getElementById('gen-btn');
+        
+        const resultContainer = document.getElementById('result-container');
+        const loadingState = document.getElementById('loading-state');
+        const generatedImage = document.getElementById('generated-image');
+        const imageOverlay = document.getElementById('image-overlay');
+        const imagePromptText = document.getElementById('image-prompt-text');
+        const downloadBtn = document.getElementById('download-btn');
+
+        // Handle suggestion pills
+        document.querySelectorAll('.pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                input.value = pill.dataset.prompt;
+                input.focus();
+            });
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const prompt = input.value.trim();
+            if (!prompt) return;
+
+            // UI Loading State
+            generateBtn.disabled = true;
+            btnText.classList.add('hide');
+            btnLoader.classList.remove('hide');
+            input.disabled = true;
+
+            resultContainer.classList.remove('hide');
+            // Small timeout to allow display:block to apply before animating opacity
+            setTimeout(() => {
+                resultContainer.classList.remove('opacity-0', 'translate-y-8');
+                resultContainer.classList.add('opacity-100', 'translate-y-0');
+            }, 50);
+
+            generatedImage.classList.add('hidden');
+            generatedImage.classList.remove('opacity-100');
+            imageOverlay.classList.add('hidden');
+            loadingState.classList.remove('hide');
+
+            try {
+                // Client-side Pollinations Generation (Bypasses IP Limits)
+                let safePrompt = prompt.replace(/[^a-zA-Z0-9\s,]/g, '');
+                let encoded = encodeURIComponent(safePrompt + " masterpiece, highly detailed, 8k resolution, award winning");
+                let seed = Math.floor(Math.random() * 9999999);
+                let url = `https://image.pollinations.ai/prompt/${encoded}?nologo=true&seed=${seed}&width=1024&height=576`;
+
+                // Fetching as a blob to ensure it fully loads before displaying
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Servers overloaded");
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+
+                // Display Image
+                generatedImage.src = objectUrl;
+                downloadBtn.href = objectUrl;
+                imagePromptText.textContent = prompt;
+                
+                generatedImage.onload = () => {
+                    loadingState.classList.add('hide');
+                    generatedImage.classList.remove('hidden');
+                    imageOverlay.classList.remove('hidden');
+                    
+                    // Fade in
+                    setTimeout(() => {
+                        generatedImage.classList.add('opacity-100');
+                    }, 50);
+                };
+
+            } catch (err) {
+                alert("Failed to generate: " + err.message);
+                loadingState.classList.add('hide');
+            } finally {
+                // Restore UI
+                generateBtn.disabled = false;
+                btnText.classList.remove('hide');
+                btnLoader.classList.add('hide');
+                input.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

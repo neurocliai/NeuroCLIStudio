@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCLI Studio | Next-Gen Image Generation</title>
+
+    <!-- Google Fonts for ultra-premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Landing Page Specific CSS -->
+    <link rel="stylesheet" href="static/css/landing.css?v=14">
+    <link rel="stylesheet" href="static/css/premium-fx.css">
+</head>
+
+<body>
+    <!-- Cinematic Waterfall Video Background with Ambient Animations -->
+    <div class="cinematic-bg-container">
+        
+        <!-- Myst Fog Overlay -->
+        <div class="myst-fog-container">
+            <div class="myst-fog"></div>
+            <div class="myst-fog-2"></div>
+        </div>
+
+        <!-- Golden Fireflies Container -->
+        <div class="fireflies-container" id="fireflies-container"></div>
+
+        <!-- Water Animation Overlay -->
+        <div class="water-ripple-overlay"></div>
+
+        <!-- Ambient Orbs -->
+        <div class="bg-animation">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
+
+        <!-- Dark overlay to ensure text readability -->
+        <div class="cinematic-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <!-- Uses SVG with PNG fallback -->
+            <img src="static/img/logo.svg" alt="NeuroCLI Studio Logo" class="logo"
+                onerror="this.onerror=null; this.src='static/img/neurocli_logo.png'">
+            <span class="brand-name">NeuroCLI Studio</span>
+        </div>
+
+        <div class="contact-nav">
+            <button class="copy-email-btn" id="copy-email-btn" onclick="copyEmail()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                <span id="copy-text">info@neuroclistudio.com</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Hero Section -->
+    <main class="hero">
+        <div class="badge">🚀 Powered by NeuroCLI-SD1.5 & FLUX</div>
+
+        <h1 class="hero-title">
+            Generate stunning images in a <br>
+            <span class="text-gradient">fraction of a second.</span>
+        </h1>
+
+        <p class="hero-description-1">
+            Experience the future of AI art with NeuroCLI Studio. Our optimized image generation models create
+            high-fidelity masterpieces under 10 seconds—significantly faster than Gemini or ChatGPT.
+        </p>
+
+        <p class="hero-description">
+            NeuroCLI is India's first sovereign agentic AI workspace and developer platform designed to process
+            high-performance generative AI workloads securely within local infrastructure boundaries. Engineered to
+            provide a secure alternative to global AI infrastructure, the platform targets strict enterprise data
+            residency mandates for fields like medical technology, defense, and finance.
+        </p>
+
+        <div class="cta-group">
+            <div class="quick-start-wrapper">
+                <form action="/app" method="GET" class="hero-quick-start">
+                    <input type="text" name="prompt" placeholder="What do you want to create?" required
+                        autocomplete="off">
+                    <button type="submit" class="cta-button">
+                        Generate
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </form>
+
+                <div class="quick-suggestions">
+                    <span class="suggestion-pill"
+                        onclick="document.querySelector('.hero-quick-start input').value = this.innerText; document.querySelector('.hero-quick-start').submit();">Neon
+                        cyberpunk city</span>
+                    <span class="suggestion-pill"
+                        onclick="document.querySelector('.hero-quick-start input').value = this.innerText; document.querySelector('.hero-quick-start').submit();">Cute
+                        fluffy cat in space</span>
+                    <span class="suggestion-pill"
+                        onclick="document.querySelector('.hero-quick-start input').value = this.innerText; document.querySelector('.hero-quick-start').submit();">Cinematic
+                        portrait</span>
+                </div>
+            </div>
+            <a href="https://neurocli.in" target="_blank" class="cta-button cta-secondary">
+                Try NeuroCLI.in GPT
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+            </a>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="features">
+            <div class="feature-card" style="animation-delay: 0.1s;">
+                <div class="feature-icon">✨</div>
+                <h3 class="feature-title">Magic Prompt Enhancer</h3>
+                <p class="feature-desc">Transform short ideas into detailed masterpiece prompts instantly.</p>
+            </div>
+            <div class="feature-card" style="animation-delay: 0.2s;">
+                <div class="feature-icon">🎨</div>
+                <h3 class="feature-title">One-Click Remix</h3>
+                <p class="feature-desc">Iterate effortlessly with seamless variations and upscaling.</p>
+            </div>
+            <div class="feature-card" style="animation-delay: 0.3s;">
+                <div class="feature-icon">🖼️</div>
+                <h3 class="feature-title">Visual Gallery</h3>
+                <p class="feature-desc">A beautiful, intuitive history of your past generations.</p>
+            </div>
+        </div>
+
+
+
+        <!-- Trust Metrics -->
+        <div class="metrics-section">
+            <div class="metric-card">
+                <h4 class="metric-value">100%</h4>
+                <p class="metric-label">Data Privacy</p>
+            </div>
+            <div class="metric-card">
+                <h4 class="metric-value">
+                    < 10s</h4>
+                        <p class="metric-label">Generation Time</p>
+            </div>
+            <div class="metric-card">
+                <h4 class="metric-value">0</h4>
+                <p class="metric-label">Telemetry</p>
+            </div>
+            <div class="metric-card">
+                <h4 class="metric-value">24/7</h4>
+                <p class="metric-label">Local Uptime</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Live Image Gallery -->
+    <section class="live-gallery-section" id="gallery">
+        <h2 class="section-title">See What's Possible</h2>
+        <p class="section-subtitle">Real generations created with NeuroCLI Studio in under 10 seconds.</p>
+
+        <div class="gallery-grid" id="live-gallery-grid">
+            <!-- Dynamic gallery cards will be injected here via Javascript -->
+        </div>
+
+        <!-- Prompt Toast Notification -->
+        <div id="prompt-toast" class="prompt-toast hidden">
+            <span id="toast-text"></span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h2 class="about-title">About <span class="text-gradient">NeuroCLI Studio</span></h2>
+        <p class="about-text">
+            Experience the future of AI art with NeuroCLI Studio. Our optimized image generation models create
+            high-fidelity masterpieces under 10 seconds—significantly faster than Gemini or ChatGPT.
+        </p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 NeuroCLI Studio. All rights reserved.</p>
+    </footer>
+
+    <!-- Interactive Mouse Glow -->
+    <div id="cursor-glow" class="cursor-glow"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Prompt Used Button Logic
+        function showPrompt(promptText, btnElement) {
+            // Copy to clipboard
+            navigator.clipboard.writeText(promptText).then(() => {
+                const toast = document.getElementById("prompt-toast");
+                const toastText = document.getElementById("toast-text");
+                toastText.innerText = `Copied prompt: "${promptText}"`;
+
+                toast.classList.remove('hidden');
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    toast.classList.add('hidden');
+                }, 3000);
+
+                // Update button state to "Copied!"
+                if (btnElement) {
+                    const originalHtml = btnElement.innerHTML;
+                    btnElement.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!`;
+                    btnElement.style.background = "var(--success, #10b981)";
+                    btnElement.style.transform = "scale(1.05)";
+
+                    setTimeout(() => {
+                        btnElement.innerHTML = originalHtml;
+                        btnElement.style.background = "";
+                        btnElement.style.transform = "";
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Copy Email Logic
+        function copyEmail() {
+            const email = "info@neuroclistudio.com";
+            const copyText = document.getElementById("copy-text");
+            const originalText = copyText.innerText;
+
+            navigator.clipboard.writeText(email).then(() => {
+                copyText.innerText = "Copied!";
+                document.getElementById("copy-email-btn").style.borderColor = "rgba(99, 102, 241, 0.5)";
+                document.getElementById("copy-email-btn").style.color = "rgba(99, 102, 241, 1)";
+
+                setTimeout(() => {
+                    copyText.innerText = originalText;
+                    document.getElementById("copy-email-btn").style.borderColor = "";
+                    document.getElementById("copy-email-btn").style.color = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        }
+
+        // Smooth Mouse Glow Tracker
+        const glow = document.getElementById('cursor-glow');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateGlow() {
+            if (window.innerWidth > 768) { // Only animate on desktop
+                glow.style.transform = `translate(${mouseX - 200}px, ${mouseY - 200}px)`;
+            }
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+        // Dynamic Live Gallery
+        async function loadLiveGallery() {
+            try {
+                const response = await fetch('/api/live-gallery');
+                if (!response.ok) throw new Error('Failed to fetch gallery');
+
+                const galleryData = await response.json();
+                const grid = document.getElementById('live-gallery-grid');
+                grid.innerHTML = ''; // Clear loading state or empty container
+
+                galleryData.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'gallery-card';
+                    card.innerHTML = `
+                        <img src="${item.image_url}" alt="${item.category} generation example" loading="lazy">
+                        <div class="card-overlay">
+                            <span class="category-tag">${item.category}</span>
+                            <button class="prompt-btn" onclick="showPrompt('${item.prompt.replace(/'/g, "\\'")}', this)">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Prompt Used
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            } catch (err) {
+                console.error('Error loading gallery:', err);
+                document.getElementById('live-gallery-grid').innerHTML = '<p style="color:white;text-align:center;width:100%;">Failed to load gallery.</p>';
+            }
+        }
+
+        // Load gallery on start
+        loadLiveGallery();
+
+    </script>
+    
+    <!-- Interactive Water Ripples -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.ripples/0.5.3/jquery.ripples.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            try {
+                const $bg = $('.cinematic-bg-container');
+                $bg.ripples({
+                    resolution: 512,
+                    dropRadius: 20,
+                    perturbance: 0.04,
+                    interactive: false // We will handle interactions manually globally
+                });
+
+                // Global mousemove to ensure ripples work regardless of z-index shielding
+                $(document).on('mousemove', function(e) {
+                    $bg.ripples('drop', e.clientX, e.clientY, 12, 0.04);
+                });
+                
+                // Add a random drop occasionally for ambiance
+                setInterval(function() {
+                    var $el = $bg;
+                    var x = Math.random() * $el.outerWidth();
+                    var y = Math.random() * $el.outerHeight();
+                    var dropRadius = 20;
+                    var strength = 0.04 + Math.random() * 0.04;
+                    $el.ripples('drop', x, y, dropRadius, strength);
+                }, 4000);
+            } catch (e) {
+                console.error("Ripples failed to load: ", e);
+            }
+        });
+        
+        // Spawn Golden Fireflies
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById('fireflies-container');
+            if (container) {
+                for (let i = 0; i < 40; i++) {
+                    let firefly = document.createElement('div');
+                    firefly.className = 'firefly';
+                    
+                    // Randomize starting position, movement, and timing
+                    let startX = Math.random() * 100;
+                    let startY = Math.random() * 100;
+                    let tx = (Math.random() - 0.5) * 200; // -100px to 100px
+                    let ty = (Math.random() - 0.5) * 200; // -100px to 100px
+                    let duration = 8 + Math.random() * 10;
+                    let delay = Math.random() * 10;
+                    
+                    firefly.style.left = startX + 'vw';
+                    firefly.style.top = startY + 'vh';
+                    firefly.style.setProperty('--tx', tx + 'px');
+                    firefly.style.setProperty('--ty', ty + 'px');
+                    firefly.style.animation = `fireflyFloat ${duration}s ease-in-out ${delay}s infinite alternate`;
+                    
+                    container.appendChild(firefly);
+                }
+            }
+        });
+    </script>
+    <script src="static/js/premium-fx.js"></script>
+</body>
+
+</html>
