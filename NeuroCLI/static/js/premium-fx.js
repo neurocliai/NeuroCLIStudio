@@ -55,44 +55,61 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
+    let lastGlareTarget = null;
+    let isGlareTicking = false;
+    let currentGlareEvent = null;
+
+    const processGlare = () => {
+        if (currentGlareEvent && lastGlareTarget) {
+            updateGlare(currentGlareEvent, lastGlareTarget);
+        }
+        isGlareTicking = false;
+    };
+
     // Apply to existing and dynamically added elements using event delegation
     document.addEventListener("mousemove", (e) => {
         const glareTarget = e.target.closest('.input-wrapper, .chat-message, .gallery-thumbnail');
+        
         if (glareTarget) {
             if(!glareTarget.classList.contains('glass-glare')) {
                 glareTarget.classList.add('glass-glare');
             }
-            updateGlare(e, glareTarget);
+            lastGlareTarget = glareTarget;
+            currentGlareEvent = e;
+            
+            if (!isGlareTicking) {
+                requestAnimationFrame(processGlare);
+                isGlareTicking = true;
+            }
         }
-    });
+    }, { passive: true });
 
     document.addEventListener("mouseout", (e) => {
         const target = e.target.closest('.input-wrapper, .chat-message, .gallery-thumbnail');
         if (target) {
             resetTilt(target);
+            if (lastGlareTarget === target) lastGlareTarget = null;
         }
     });
 
-    // 1. Magnetic Buttons
-    const bindMagnetic = () => {
-        document.querySelectorAll('button:not(.magnetic)').forEach(btn => {
-            btn.classList.add('magnetic');
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = `translate(0px, 0px)`;
-            });
-        });
-    };
-    bindMagnetic();
-    
-    // Re-bind when mutations happen (like dynamic chat buttons)
-    const observer = new MutationObserver(bindMagnetic);
-    observer.observe(document.body, { childList: true, subtree: true });
+    // 1. Magnetic Buttons (Event Delegation instead of MutationObserver)
+    document.addEventListener("mousemove", (e) => {
+        const btn = e.target.closest('button');
+        if (btn && !btn.classList.contains('prompt-action-btn') && !btn.classList.contains('action-btn')) {
+            if (!btn.classList.contains('magnetic')) btn.classList.add('magnetic');
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+        }
+    }, { passive: true });
+
+    document.addEventListener("mouseout", (e) => {
+        const btn = e.target.closest('button');
+        if (btn) {
+            btn.style.transform = `translate(0px, 0px)`;
+        }
+    });
 
     // 4. Text Scramble Decode
     const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";

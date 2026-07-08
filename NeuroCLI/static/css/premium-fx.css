@@ -22,13 +22,14 @@
     width: 60vw;
     height: 60vw;
     background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(99, 102, 241, 0.15));
-    filter: blur(90px);
+    filter: blur(45px);
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
     animation: morphBlob 15s ease-in-out infinite alternate, spinBlob 25s linear infinite;
     pointer-events: none;
     z-index: -2;
     transform-origin: center;
     mix-blend-mode: screen;
+    will-change: filter, transform, border-radius;
 }
 @keyframes morphBlob {
     0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
