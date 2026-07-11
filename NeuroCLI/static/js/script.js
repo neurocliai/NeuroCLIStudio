@@ -63,13 +63,33 @@ document.addEventListener('DOMContentLoaded', () => {
                                 // Sign out
                                 const logoutBtn = document.getElementById('logout-btn');
                                 if (logoutBtn) {
-                                    logoutBtn.onclick = () => {
-                                        authModule.signOut(auth).then(() => {
+                                    logoutBtn.onclick = async (e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        logoutBtn.textContent = 'Signing out...';
+                                        try {
+                                            await authModule.signOut(auth);
+                                            localStorage.removeItem('neurocli_session_id');
                                             window.location.href = '/auth';
-                                        });
+                                        } catch (error) {
+                                            console.error('Logout error:', error);
+                                            logoutBtn.textContent = 'Sign Out';
+                                            alert('Failed to sign out.');
+                                        }
                                     };
                                 }
                             }
+                            
+                            // Close dropdown when clicking outside
+                            document.addEventListener('click', (e) => {
+                                const profileWidget = document.getElementById('user-profile-widget');
+                                const dropdown = document.getElementById('profile-dropdown');
+                                if (profileWidget && dropdown) {
+                                    if (!profileWidget.contains(e.target) && !dropdown.contains(e.target)) {
+                                        dropdown.style.display = 'none';
+                                    }
+                                }
+                            });
                             
                             loadChats(); // Reload chats now that we have the user UID
                         } else {
