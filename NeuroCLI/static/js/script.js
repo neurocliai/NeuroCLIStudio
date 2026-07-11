@@ -33,32 +33,26 @@ document.addEventListener('DOMContentLoaded', () => {
                             firebaseUser = user;
                             console.log("Logged in as Firebase user:", user.uid);
                             
-                            // Populate profile widget if we are on app.html
-                            const profileWidget = document.getElementById('user-profile-widget');
-                            if (profileWidget) {
-                                profileWidget.style.display = 'flex';
-                                const displayName = user.displayName || 'User';
-                                const userEmail = document.getElementById('user-email');
-                                if (userEmail) userEmail.innerText = displayName;
-                                
-                                const userAvatar = document.getElementById('user-avatar');
-                                if (userAvatar && user.photoURL) {
-                                    userAvatar.src = user.photoURL;
+                                // Sync profile widget if logged in
+                                const profileWidget = document.getElementById('user-profile-widget');
+                                if (profileWidget) {
+                                    const displayName = user.displayName || 'User';
+                                    const userEmail = document.getElementById('user-email');
+                                    if (userEmail) userEmail.innerText = displayName;
+                                    
+                                    const userAvatar = document.getElementById('user-avatar');
+                                    if (userAvatar && user.photoURL) {
+                                        userAvatar.src = user.photoURL;
+                                    }
+                                    
+                                    // Populate dropdown
+                                    const dropdownName = document.getElementById('dropdown-name');
+                                    if (dropdownName) dropdownName.innerText = displayName;
+                                    const dropdownEmail = document.getElementById('dropdown-email');
+                                    if (dropdownEmail) dropdownEmail.innerText = user.email || '';
+                                    const dropdownAvatar = document.getElementById('dropdown-avatar');
+                                    if (dropdownAvatar && user.photoURL) dropdownAvatar.src = user.photoURL;
                                 }
-                                
-                                // Populate dropdown
-                                const dropdownName = document.getElementById('dropdown-name');
-                                if (dropdownName) dropdownName.innerText = displayName;
-                                const dropdownEmail = document.getElementById('dropdown-email');
-                                if (dropdownEmail) dropdownEmail.innerText = user.email || '';
-                                const dropdownAvatar = document.getElementById('dropdown-avatar');
-                                if (dropdownAvatar && user.photoURL) dropdownAvatar.src = user.photoURL;
-                                
-                                // Dropdown toggle
-                                profileWidget.onclick = () => {
-                                    const dropdown = document.getElementById('profile-dropdown');
-                                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                                };
                                 
                                 // Sign out
                                 const logoutBtn = document.getElementById('logout-btn');
@@ -100,6 +94,22 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch(e) {}
         });
     });
+
+    // Make Profile Widget interactive for everyone (Guests & Logged in)
+    const profileWidget = document.getElementById('user-profile-widget');
+    if (profileWidget) {
+        profileWidget.style.display = 'flex'; // Always show it
+        profileWidget.onclick = () => {
+            if (!firebaseUser) {
+                window.location.href = '/auth';
+                return;
+            }
+            const dropdown = document.getElementById('profile-dropdown');
+            if (dropdown) {
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+        };
+    }
 
     const form = document.getElementById('generate-form');
     const input = document.getElementById('prompt-input');
