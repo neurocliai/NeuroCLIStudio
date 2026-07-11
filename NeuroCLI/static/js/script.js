@@ -16,8 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
     import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then((appModule) => {
         import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then((authModule) => {
             const firebaseConfig = {
-                apiKey: "PASTE_YOUR_API_KEY_HERE",
-                projectId: "178874986630", 
+                projectId: "neurocliai-11b75",
+                appId: "1:178874986630:web:b669a43f063edc77826107",
+                storageBucket: "neurocliai-11b75.firebasestorage.app",
+                apiKey: "AIzaSyCZZwGyIFmAHZc0sg3hUXjGNURKDFBF_jA",
+                authDomain: "neuroclistudio.com",
+                messagingSenderId: "178874986630",
+                measurementId: "G-KGK91GBR6S"
             };
             try {
                 if (!firebaseConfig.apiKey.includes("PASTE_")) {
