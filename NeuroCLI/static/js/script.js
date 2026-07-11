@@ -32,6 +32,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (user) {
                             firebaseUser = user;
                             console.log("Logged in as Firebase user:", user.uid);
+                            
+                            // Populate profile widget if we are on app.html
+                            const profileWidget = document.getElementById('user-profile-widget');
+                            if (profileWidget) {
+                                profileWidget.style.display = 'flex';
+                                const userEmail = document.getElementById('user-email');
+                                if (userEmail) userEmail.innerText = user.email || user.displayName || 'User';
+                                
+                                const userAvatar = document.getElementById('user-avatar');
+                                if (userAvatar && user.photoURL) {
+                                    userAvatar.src = user.photoURL;
+                                }
+                            }
+                            
                             loadChats(); // Reload chats now that we have the user UID
                         } else {
                             firebaseUser = null;

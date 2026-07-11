@@ -293,7 +293,13 @@
                         onerror="this.onerror=null; this.src='static/img/neurocli_logo.png'">
                     <h1>NeuroCLIStudio</h1>
                 </div>
-                <div class="model-badge">NeuroCLI-SD1.5</div>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div class="model-badge">NeuroCLI-SD1.5</div>
+                    <div id="user-profile-widget" style="display: none; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.25rem 0.75rem 0.25rem 0.25rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                        <img id="user-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="Avatar" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.5);">
+                        <span id="user-email" style="font-size: 0.75rem; color: #d4d4d8; font-weight: 500; max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">user@example.com</span>
+                    </div>
+                </div>
             </header>
 
             <!-- Main Scrollable Chat Area -->
