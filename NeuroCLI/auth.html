@@ -313,14 +313,26 @@
             }
         });
 
+        let isGoogleSignInPending = false;
         document.getElementById('google-btn').addEventListener('click', async () => {
             if (!auth) return showError("Firebase is not configured! Check auth.html source code.");
+            if (isGoogleSignInPending) return;
+            
             const provider = new GoogleAuthProvider();
+            isGoogleSignInPending = true;
+            document.getElementById('error-msg').style.display = 'none';
+            
             try {
                 const userCred = await signInWithPopup(auth, provider);
                 await syncUserToBackend(userCred.user);
                 // onAuthStateChanged will handle redirect
             } catch (error) {
+                isGoogleSignInPending = false;
+                // Ignore errors where the user simply closed the popup or it was cancelled by multiple clicks
+                if (error.code === 'auth/cancelled-popup-request' || error.code === 'auth/popup-closed-by-user') {
+                    console.log("Popup closed or cancelled");
+                    return; 
+                }
                 showError(error.message.replace("Firebase: ", ""));
             }
         });
