@@ -295,9 +295,26 @@
                 </div>
                 <div style="display: flex; align-items: center; gap: 1rem;">
                     <div class="model-badge">NeuroCLI-SD1.5</div>
-                    <div id="user-profile-widget" style="display: none; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.25rem 0.75rem 0.25rem 0.25rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
-                        <img id="user-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="Avatar" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.5);">
-                        <span id="user-email" style="font-size: 0.75rem; color: #d4d4d8; font-weight: 500; max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">user@example.com</span>
+                    
+                    <!-- Profile Widget Container -->
+                    <div style="position: relative;">
+                        <button id="user-profile-widget" style="display: none; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); padding: 0.25rem 0.75rem 0.25rem 0.25rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: background 0.2s;">
+                            <img id="user-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="Avatar" style="width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,0.5); object-fit: cover;">
+                            <span id="user-email" style="font-size: 0.75rem; color: #d4d4d8; font-weight: 500; max-width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">user@example.com</span>
+                        </button>
+                        
+                        <!-- Profile Dropdown -->
+                        <div id="profile-dropdown" style="display: none; position: absolute; right: 0; top: calc(100% + 0.5rem); background: rgba(15, 15, 20, 0.95); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 1.5rem; width: 250px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 100;">
+                            <div style="text-align: center; margin-bottom: 1rem;">
+                                <img id="dropdown-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='12' cy='7' r='4'/%3E%3C/svg%3E" alt="Avatar" style="width: 64px; height: 64px; border-radius: 50%; background: rgba(0,0,0,0.5); margin-bottom: 0.5rem; object-fit: cover;">
+                                <div id="dropdown-name" style="color: white; font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem;">Full Name</div>
+                                <div id="dropdown-email" style="color: #a1a1aa; font-size: 0.85rem;">email@example.com</div>
+                            </div>
+                            <hr style="border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
+                            <button id="logout-btn" style="width: 100%; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); padding: 0.75rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                Sign Out
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
