@@ -122,26 +122,20 @@ def sync_user():
     if not uid:
         return jsonify({'error': 'UID is required'}), 400
         
-    conn = psycopg2.connect(POSTGRES_URI)
-    if not conn:
-        return jsonify({'error': 'Database connection failed'}), 500
-        
     try:
-        c = conn.cursor()
-        c.execute('''
-            INSERT INTO users (uid, email, full_name)
-            VALUES (%s, %s, %s)
-            ON CONFLICT (uid) DO UPDATE 
-            SET email = EXCLUDED.email, full_name = EXCLUDED.full_name
-        ''', (uid, email, full_name))
-        conn.commit()
-        return jsonify({'success': True})
+        if supabase_client:
+            # Use Supabase client to respect RLS and keys
+            response = supabase_client.table('users').upsert({
+                'uid': uid,
+                'email': email,
+                'full_name': full_name
+            }).execute()
+            return jsonify({'success': True})
+        else:
+            return jsonify({'error': 'Supabase client is not initialized'}), 500
     except Exception as e:
         print(f"Error syncing user: {e}")
-        conn.rollback()
         return jsonify({'error': str(e)}), 500
-    finally:
-        conn.close()
 
 @app.route('/app')
 def run_app():
