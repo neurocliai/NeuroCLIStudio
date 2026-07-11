@@ -49,6 +49,14 @@ def init_db():
         except Exception:
             conn.rollback()
         
+        # Create users table to store profile info
+        c.execute('''CREATE TABLE IF NOT EXISTS users (
+                        uid VARCHAR(255) PRIMARY KEY,
+                        email VARCHAR(255),
+                        full_name VARCHAR(255),
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                     )''')
+                     
         # Create chats table
         c.execute('''CREATE TABLE IF NOT EXISTS chats (
                         id SERIAL PRIMARY KEY,
@@ -97,6 +105,37 @@ def index():
 @app.route('/auth')
 def auth_page():
     return render_template('auth.html')
+
+@app.route('/api/users/sync', methods=['POST'])
+def sync_user():
+    data = request.json
+    uid = data.get('uid')
+    email = data.get('email', '')
+    full_name = data.get('full_name', '')
+    
+    if not uid:
+        return jsonify({'error': 'UID is required'}), 400
+        
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'error': 'Database connection failed'}), 500
+        
+    try:
+        c = conn.cursor()
+        c.execute('''
+            INSERT INTO users (uid, email, full_name)
+            VALUES (%s, %s, %s)
+            ON CONFLICT (uid) DO UPDATE 
+            SET email = EXCLUDED.email, full_name = EXCLUDED.full_name
+        ''', (uid, email, full_name))
+        conn.commit()
+        return jsonify({'success': True})
+    except Exception as e:
+        print(f"Error syncing user: {e}")
+        conn.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        conn.close()
 
 @app.route('/app')
 def run_app():
