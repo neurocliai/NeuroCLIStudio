@@ -122,7 +122,7 @@ def sync_user():
     if not uid:
         return jsonify({'error': 'UID is required'}), 400
         
-    conn = get_db_connection()
+    conn = psycopg2.connect(POSTGRES_URI)
     if not conn:
         return jsonify({'error': 'Database connection failed'}), 500
         
