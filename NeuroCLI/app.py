@@ -98,13 +98,19 @@ init_db()
 
 HF_TOKEN = "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"
 
+from flask import make_response
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    resp = make_response(render_template('index.html'))
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    return resp
 
 @app.route('/auth')
 def auth_page():
-    return render_template('auth.html')
+    resp = make_response(render_template('auth.html'))
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return resp
 
 @app.route('/api/users/sync', methods=['POST'])
 def sync_user():
@@ -139,7 +145,9 @@ def sync_user():
 
 @app.route('/app')
 def run_app():
-    return render_template('app.html')
+    resp = make_response(render_template('app.html'))
+    resp.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    return resp
 
 import io
 import base64
