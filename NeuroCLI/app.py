@@ -94,6 +94,10 @@ HF_TOKEN = "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"
 def index():
     return render_template('index.html')
 
+@app.route('/auth')
+def auth_page():
+    return render_template('auth.html')
+
 @app.route('/app')
 def run_app():
     return render_template('app.html')

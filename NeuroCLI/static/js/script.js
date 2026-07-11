@@ -1,14 +1,41 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Session ID Management for Data Isolation
+    // Firebase Auth & Session ID Management
+    let firebaseUser = null;
+    let sessionId = localStorage.getItem('neurocli_session_id');
+    if (!sessionId) {
+        sessionId = 'session_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+        localStorage.setItem('neurocli_session_id', sessionId);
+    }
+    
+    // Dynamic Session ID that prefers Firebase UID
     const getSessionId = () => {
-        let sessionId = localStorage.getItem('neurocli_session_id');
-        if (!sessionId) {
-            sessionId = 'session_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-            localStorage.setItem('neurocli_session_id', sessionId);
-        }
-        return sessionId;
+        return firebaseUser ? firebaseUser.uid : sessionId;
     };
-    const sessionId = getSessionId();
+
+    // Note: We use dynamic import so it doesn't block if they haven't configured it
+    import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js").then((appModule) => {
+        import("https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js").then((authModule) => {
+            const firebaseConfig = {
+                apiKey: "PASTE_YOUR_API_KEY_HERE",
+                projectId: "178874986630", 
+            };
+            try {
+                if (!firebaseConfig.apiKey.includes("PASTE_")) {
+                    const app = appModule.initializeApp(firebaseConfig);
+                    const auth = authModule.getAuth(app);
+                    authModule.onAuthStateChanged(auth, (user) => {
+                        if (user) {
+                            firebaseUser = user;
+                            console.log("Logged in as Firebase user:", user.uid);
+                            loadChats(); // Reload chats now that we have the user UID
+                        } else {
+                            firebaseUser = null;
+                        }
+                    });
+                }
+            } catch(e) {}
+        });
+    });
 
     const form = document.getElementById('generate-form');
     const input = document.getElementById('prompt-input');
@@ -699,7 +726,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Send base64 to backend for watermarking and saving to Supabase history
             const response = await fetch('/generate', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
+                headers: { 'Content-Type': 'application/json', 'X-Session-Id': getSessionId() },
                 body: JSON.stringify({ prompt, chat_id: currentChatId, style: currentStyle, generated_b64: b64data }),
             });
 

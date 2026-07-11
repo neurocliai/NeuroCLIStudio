@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroCLI Studio | Authentication</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/landing.css">
+    <link rel="stylesheet" href="static/css/premium-fx.css">
+    <style>
+        .auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .auth-card {
+            background: rgba(10, 10, 12, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .auth-logo {
+            width: 60px;
+            margin-bottom: 1rem;
+        }
+        .auth-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .auth-subtitle {
+            color: #a1a1aa;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            text-align: left;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .input-group label {
+            color: #d4d4d8;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .auth-input {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+        .auth-input:focus {
+            outline: none;
+            border-color: #a855f7;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+        }
+        .auth-btn {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 0.5rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: #71717a;
+            font-size: 0.85rem;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 1rem;
+        }
+        .google-btn {
+            background: #fff;
+            color: #18181b;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            width: 100%;
+            font-family: 'Inter', sans-serif;
+        }
+        .google-btn:hover {
+            background: #f4f4f5;
+            transform: translateY(-2px);
+        }
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+        .auth-toggle {
+            margin-top: 1.5rem;
+            color: #a1a1aa;
+            font-size: 0.9rem;
+        }
+        .auth-toggle a {
+            color: #a855f7;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .auth-toggle a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="cinematic-bg-container">
+        <div class="water-ripple-overlay"></div>
+        <div class="bg-animation">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+        <div class="cinematic-overlay"></div>
+    </div>
+
+    <nav class="navbar" style="position: absolute; width: 100%; top: 0; z-index: 20;">
+        <div class="logo-container" onclick="window.location.href='/'" style="cursor: pointer;">
+            <img src="static/img/logo.svg" alt="NeuroCLI Studio Logo" class="logo"
+                onerror="this.onerror=null; this.src='static/img/neurocli_logo.png'">
+            <span class="brand-name">NeuroCLI Studio</span>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card tiltable">
+            <img src="static/img/logo.svg" alt="Logo" class="auth-logo" onerror="this.onerror=null; this.src='static/img/neurocli_logo.png'">
+            <h1 class="auth-title" id="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle" id="auth-subtitle">Sign in to sync your generations across devices.</p>
+
+            <form class="auth-form" id="auth-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="auth-input" placeholder="you@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="auth-input" placeholder="••••••••" required>
+                </div>
+                <div class="error-message" id="error-msg"></div>
+                <button type="submit" class="auth-btn magnetic" id="submit-btn">Sign In</button>
+            </form>
+
+            <div class="divider">OR</div>
+
+            <button class="google-btn magnetic" id="google-btn">
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <p class="auth-toggle">
+                <span id="toggle-text">Don't have an account?</span> 
+                <a id="toggle-link" onclick="toggleAuthMode()">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // !!!!!!!!!!!! IMPORTANT !!!!!!!!!!!!
+        // Replace this with your actual Firebase configuration object from Firebase Console
+        const firebaseConfig = {
+            apiKey: "PASTE_YOUR_API_KEY_HERE",
+            authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
+            projectId: "PASTE_YOUR_PROJECT_ID_HERE", // Should be 178874986630 related
+            storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "PASTE_YOUR_APP_ID_HERE"
+        };
+        // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+        // Only initialize if the user has pasted a real API key
+        let auth;
+        try {
+            if (firebaseConfig.apiKey.includes("PASTE_")) {
+                console.warn("Firebase not configured. Please paste your config in auth.html!");
+            } else {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                
+                // If already logged in, redirect to app
+                onAuthStateChanged(auth, (user) => {
+                    if (user) {
+                        window.location.href = '/app';
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Firebase init error", e);
+        }
+
+        window.isSignUpMode = false;
+
+        window.toggleAuthMode = () => {
+            window.isSignUpMode = !window.isSignUpMode;
+            document.getElementById('auth-title').innerText = window.isSignUpMode ? "Create Account" : "Welcome Back";
+            document.getElementById('auth-subtitle').innerText = window.isSignUpMode ? "Join NeuroCLI Studio for free." : "Sign in to sync your generations across devices.";
+            document.getElementById('submit-btn').innerText = window.isSignUpMode ? "Sign Up" : "Sign In";
+            document.getElementById('toggle-text').innerText = window.isSignUpMode ? "Already have an account?" : "Don't have an account?";
+            document.getElementById('toggle-link').innerText = window.isSignUpMode ? "Sign in" : "Sign up";
+            document.getElementById('error-msg').style.display = 'none';
+        };
+
+        const showError = (msg) => {
+            const errEl = document.getElementById('error-msg');
+            errEl.innerText = msg;
+            errEl.style.display = 'block';
+        };
+
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth) return showError("Firebase is not configured! Check auth.html source code.");
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                if (window.isSignUpMode) {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                } else {
+                    await signInWithEmailAndPassword(auth, email, password);
+                }
+                // onAuthStateChanged will handle redirect
+            } catch (error) {
+                showError(error.message.replace("Firebase: ", ""));
+            }
+        });
+
+        document.getElementById('google-btn').addEventListener('click', async () => {
+            if (!auth) return showError("Firebase is not configured! Check auth.html source code.");
+            const provider = new GoogleAuthProvider();
+            try {
+                await signInWithPopup(auth, provider);
+                // onAuthStateChanged will handle redirect
+            } catch (error) {
+                showError(error.message.replace("Firebase: ", ""));
+            }
+        });
+    </script>
+    <script src="static/js/premium-fx.js"></script>
+</body>
+</html>
