@@ -173,12 +173,15 @@ def generate_image():
             
         # Parse the base64 string
         b64_str = data['generated_b64']
-        if b64_str.startswith('data:image'):
+        if ',' in b64_str:
             b64_str = b64_str.split(',')[1]
             
-        image_data = base64.b64decode(b64_str)
-        image = Image.open(io.BytesIO(image_data))
-        image = image.convert("RGB")
+        try:
+            image_data = base64.b64decode(b64_str)
+            image = Image.open(io.BytesIO(image_data))
+            image = image.convert("RGB")
+        except Exception as e:
+            return jsonify({'error': 'Invalid image data received from AI. Server might be overloaded or returning HTML.'}), 400
         
         
         # Add transparent NeuroCLI watermark to the bottom right

@@ -763,6 +763,59 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 242, 254, 0.2);
 }
 
+.border-pill {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 0.4rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+}
+
+.border-pill:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.border-pill.active {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
+    color: var(--text-primary);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);
+}
+
+.border-style-default {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.border-style-rectangle {
+    border-radius: 0px !important;
+    border: 2px solid #fff;
+}
+.border-style-curve {
+    border-radius: 50px !important;
+    border: 3px solid rgba(0, 242, 254, 0.5);
+}
+.border-style-transparent {
+    border-radius: 16px;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+.border-style-neon {
+    border-radius: 16px;
+    border: 2px solid #0f0;
+    box-shadow: 0 0 10px #0f0, 0 0 20px #0f0, inset 0 0 10px #0f0 !important;
+}
+.border-style-dashed {
+    border-radius: 16px;
+    border: 3px dashed #a855f7 !important;
+}
+
 .input-wrapper {
     position: relative;
     display: flex;
