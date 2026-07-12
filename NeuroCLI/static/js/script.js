@@ -564,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load Chat Sidebar
     const loadChats = async () => {
         try {
-            const res = await fetch('/chats', { headers: { 'X-Session-Id': sessionId } });
+            const res = await fetch('/chats', { headers: { 'X-Session-Id': getSessionId() } });
             const data = await res.json();
             chatList.innerHTML = '';
             
@@ -607,7 +607,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatContainer.innerHTML = '';
         
         try {
-            const res = await fetch(`/history/${chatId}`, { headers: { 'X-Session-Id': sessionId } });
+            const res = await fetch(`/history/${chatId}`, { headers: { 'X-Session-Id': getSessionId() } });
             const data = await res.json();
             if (data.history) {
                 data.history.forEach(item => {
@@ -650,7 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await fetch(`/chats/${chatId}`, {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
+                    headers: { 'Content-Type': 'application/json', 'X-Session-Id': getSessionId() },
                     body: JSON.stringify({ title: newTitle.trim() })
                 });
                 loadChats();
@@ -672,7 +672,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (confirmed) {
             try {
-                await fetch(`/chats/${chatId}`, { method: 'DELETE', headers: { 'X-Session-Id': sessionId } });
+                await fetch(`/chats/${chatId}`, { method: 'DELETE', headers: { 'X-Session-Id': getSessionId() } });
                 if (currentChatId === chatId) {
                     newChatBtn.click();
                 }
@@ -843,7 +843,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadChats();
     // Fetch most recent chat if any, or default to new chat
     setTimeout(async () => {
-        const res = await fetch('/chats', { headers: { 'X-Session-Id': sessionId } });
+        const res = await fetch('/chats', { headers: { 'X-Session-Id': getSessionId() } });
         const data = await res.json();
         if(data.chats && data.chats.length > 0) {
             selectChat(data.chats[0].id);
