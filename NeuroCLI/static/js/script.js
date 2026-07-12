@@ -84,10 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                             });
                             
-                            loadChats().then(() => initializeChatSelection()); // Reload chats now that we have the user UID
+                            loadChats(); // Reload chats now that we have the user UID
                         } else {
                             firebaseUser = null;
-                            loadChats().then(() => initializeChatSelection());
                         }
                     });
                 }
@@ -300,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </svg>
             </div>
             <div class="message-content">
-                <div class="generated-image-box border-style-${typeof currentBorder !== 'undefined' ? currentBorder : 'default'}">
+                <div class="generated-image-box">
                     <img src="${imgSrc}" alt="${escapeHTML(prompt)}" class="image-reveal" onload="scrollToBottom()" style="cursor: zoom-in;" onclick="openModal(this.src)">
                     <div class="image-actions">
                         <button class="action-btn" onclick="remixPrompt('${escapeHTML(prompt).replace(/'/g, "\\'")}')" title="Create a variation">
@@ -756,17 +755,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Border Pills Selection
-    window.currentBorder = 'default';
-    const borderPills = document.querySelectorAll('.border-pill');
-    borderPills.forEach(pill => {
-        pill.addEventListener('click', () => {
-            borderPills.forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-            window.currentBorder = pill.dataset.border;
-        });
-    });
-
     // Form Submission
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -802,10 +790,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error("Our servers are currently facing heavy load. Please try after some time.");
             }
             const imgBlob = await imgResponse.blob();
-            
-            if (!imgBlob.type.startsWith('image/')) {
-                throw new Error("The AI server returned an invalid response (possibly blocked or overloaded). Please try again.");
-            }
             
             // Convert to base64
             const reader = new FileReader();
@@ -856,11 +840,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Boot execution
-    let initialLoadDone = false;
-    
-    const initializeChatSelection = async () => {
-        if (initialLoadDone) return;
-        initialLoadDone = true;
+    loadChats();
+    // Fetch most recent chat if any, or default to new chat
+    setTimeout(async () => {
         const res = await fetch('/chats', { headers: { 'X-Session-Id': getSessionId() } });
         const data = await res.json();
         if(data.chats && data.chats.length > 0) {
@@ -868,14 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             newChatBtn.click();
         }
-    };
-
-    // Fallback if Firebase takes too long or isn't configured
-    const initTimer = setTimeout(() => {
-        if (!firebaseUser) {
-            loadChats().then(() => initializeChatSelection());
-        }
-    }, 1500);
+    }, 100);
 
     // --- Premium UX Features --- //
     
